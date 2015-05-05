@@ -1,4 +1,8 @@
+## omniauth-yahoo-oauth2 ##
+
 An unofficial, hastily-written Oauth2 OmniAuth strategy for Yahoo. Uses the authorization flow described at https://developer.yahoo.com/oauth2/guide/flows_authcode/.
+
+Built using https://github.com/intridea/omniauth-oauth2.
 
 ## Setup ##
 `gem install omniauth-yahoo-oauth2`
@@ -13,6 +17,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     name: 'yahoo'
 end
 ```
+
+See https://github.com/intridea/omniauth for Omniauth instructions.
 
 ## Notes ##
 OmniAuth doesn't currently have built-in support for Basic Authentication for retrieving OAuth tokens, so `YahooOauth2#build_access_token` handles this inline.
