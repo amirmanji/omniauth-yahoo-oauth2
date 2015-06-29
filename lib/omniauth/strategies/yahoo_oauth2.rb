@@ -22,7 +22,7 @@ module OmniAuth
           language: raw_info['profile']['lang'],
           location: raw_info['profile']['location'],
           urls: {
-            image: raw_info['profile']['image']['imageUrl'],
+            image: raw_info['profile'].fetch('image', {})['imageUrl'],
             profile: raw_info['profile']['profileUrl']
           }
         }
