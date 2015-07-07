@@ -9,19 +9,29 @@ module OmniAuth
       uid { access_token.params['xoauth_yahoo_guid'] }
 
       info do
-        {
-          nickname: raw_info['profile']['nickname'],
-          first_name: raw_info["givenName"],
-          last_name:  raw_info["familyName"],
-          email: preferred_email,
-          gender: raw_info['profile']['gender'],
-          language: raw_info['profile']['lang'],
-          location: raw_info['profile']['location'],
+        prune!({
+          name:       profile["nickname"],
+          nickname:   profile['nickname'],
+          first_name: profile["givenName"],
+          last_name:  profile["familyName"],
+          email:      preferred_email,
+          location:   profile['location'],
+          image:      profile['imageUrl'],
+          phone:      profile.fetch("phones", []).join(", "),
           urls: {
-            image: raw_info['profile'].fetch('image', {})['imageUrl'],
-            profile: raw_info['profile']['profileUrl']
-          }
-        }
+            profile: profile['profileUrl'],
+          },
+        })
+      end
+
+      extra do
+        hash = {}
+        hash[:raw_info] = raw_info unless skip_info?
+        prune! hash
+      end
+
+      def profile
+        raw_info.fetch("profile")
       end
 
       def client
@@ -36,6 +46,15 @@ module OmniAuth
         raw_info_url =
           "https://social.yahooapis.com/v1/user/#{uid}/profile?format=json"
         @raw_info ||= access_token.get(raw_info_url).parsed
+      end
+
+      private
+
+      def prune!(hash)
+        hash.delete_if do |_, v|
+          prune!(v) if v.is_a?(Hash)
+          v.nil? || (v.respond_to?(:empty?) && v.empty?)
+        end
       end
 
       def preferred_email
