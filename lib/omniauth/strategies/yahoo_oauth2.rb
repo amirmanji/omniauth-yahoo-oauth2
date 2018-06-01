@@ -17,7 +17,7 @@ module OmniAuth
         {
           name: raw_profile_info['givenName'],
           nickname: raw_profile_info['nickname'],
-          location: raw_profile_info.dig['location'],
+          location: raw_profile_info['location'],
           image: raw_profile_info.dig('image', 'imageUrl'),
           urls: {
             Profile: raw_profile_info['profileUrl']
