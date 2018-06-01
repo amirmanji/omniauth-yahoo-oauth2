@@ -15,14 +15,14 @@ module OmniAuth
 
       info do
         {
-          name: raw_info['profile']['nickname'],
-          nickname: raw_info['profile']['nickname'],
-          gender: raw_info['profile']['gender'],
-          language: raw_info['profile']['lang'],
-          location: raw_info['profile']['location'],
+          name: raw_info.dig('profile', 'nickname'),
+          nickname: raw_info.dig('profile', 'nickname'),
+          gender: raw_info.dig('profile', 'gender'),
+          language: raw_info.dig('profile', 'lang'),
+          location: raw_info.dig('profile', 'location'),
           urls: {
-            image: raw_info['profile']['image']['imageUrl'],
-            profile: raw_info['profile']['profileUrl']
+            image: raw_info.dig('profile', 'image', 'imageUrl'),
+            profile: raw_info.dig('profile', 'profileUrl')
           }
         }
       end
