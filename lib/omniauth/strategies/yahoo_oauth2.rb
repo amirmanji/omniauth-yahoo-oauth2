@@ -15,14 +15,15 @@ module OmniAuth
 
       info do
         {
-          name: raw_info.dig('profile', 'nickname'),
-          nickname: raw_info.dig('profile', 'nickname'),
-          gender: raw_info.dig('profile', 'gender'),
-          language: raw_info.dig('profile', 'lang'),
-          location: raw_info.dig('profile', 'location'),
+          name: raw_profile_info['givenName'],
+          nickname: raw_profile_info['nickname'],
+          location: raw_profile_info.dig['location'],
+          image: raw_profile_info.dig('image', 'imageUrl'),
           urls: {
-            image: raw_info.dig('profile', 'image', 'imageUrl'),
-            profile: raw_info.dig('profile', 'profileUrl')
+            Profile: raw_profile_info['profileUrl']
+          },
+          extra: {
+            raw_info: raw_profile_info
           }
         }
       end
@@ -42,9 +43,9 @@ module OmniAuth
         )
       end
 
-      def raw_info
-        raw_info_url = "https://social.yahooapis.com/v1/user/#{uid}/profile?format=json"
-        @raw_info ||= access_token.get(raw_info_url).parsed
+      def raw_profile_info
+        raw_profile_info_url = "https://social.yahooapis.com/v1/user/#{uid}/profile?format=json"
+        @raw_profile_info ||= access_token.get(raw_profile_info_url).parsed['profile']
       end
     end
   end
