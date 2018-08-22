@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'omniauth/strategies/oauth2'
 require 'base64'
 
@@ -15,6 +17,7 @@ module OmniAuth
 
       info do
         {
+          email: email,
           name: raw_profile_info['givenName'],
           nickname: raw_profile_info['nickname'],
           location: raw_profile_info['location'],
@@ -46,6 +49,11 @@ module OmniAuth
       def raw_profile_info
         raw_profile_info_url = "https://social.yahooapis.com/v1/user/#{uid}/profile?format=json"
         @raw_profile_info ||= access_token.get(raw_profile_info_url).parsed['profile']
+      end
+
+      def email
+        return nil unless raw_profile_info['emails']&.is_a?(Array)
+        raw_profile_info['emails'].select { |email_info| email_info['handle'].include?('@') }.first
       end
     end
   end
