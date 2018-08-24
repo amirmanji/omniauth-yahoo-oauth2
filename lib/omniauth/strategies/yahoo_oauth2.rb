@@ -53,7 +53,10 @@ module OmniAuth
 
       def email
         return nil unless raw_profile_info['emails']&.is_a?(Array)
-        raw_profile_info['emails'].select { |email_info| email_info['handle'].include?('@') }.first
+        primary_email_hash = raw_profile_info['emails'].select { |email_info| email_info['primary'] }.first
+        some_email_hash = raw_profile_info['emails'].select { |email_info| email_info['handle'].include?('@') }.first
+        email_hash = primary_email_hash || some_email_hash || {}
+        email_hash['handle']
       end
     end
   end
