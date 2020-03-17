@@ -1,1 +1,1 @@
-require File.join('omniauth', 'strategies', 'yahoo_oauth2')
+require 'omniauth/strategies/yahoo_oauth2'
