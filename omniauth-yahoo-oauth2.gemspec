@@ -15,5 +15,5 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split("\n")
   gem.name          = 'omniauth-yahoo-oauth2'
   gem.require_paths = ['lib']
-  gem.version       = OmniAuth::YahooOauth2::VERSION
+  gem.version       = OmniAuth::YahooOAuth2::VERSION
 end
