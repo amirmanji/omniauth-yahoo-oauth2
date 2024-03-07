@@ -46,9 +46,10 @@ module OmniAuth
         )
       end
 
+      private
+
       def raw_profile_info
-        raw_profile_info_url = "https://social.yahooapis.com/v1/user/#{uid}/profile?format=json"
-        @raw_profile_info ||= access_token.get(raw_profile_info_url).parsed['profile']
+        @raw_profile_info ||= access_token.get("https://social.yahooapis.com/v1/user/#{uid}/profile?format=json").parsed['profile']
       end
 
       def email
